@@ -14,17 +14,21 @@ import { HomeComponent } from './pages/home/home.component';
 import { BasesComponent } from './pages/bases/bases.component';
 import { AuthInterceptorProvider } from './interceptor/auth-interceptors';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { SchemaService } from './service/domain/schema-service';
+import { SchemaComponent } from './pages/schema/schema.component';
 
  const appRoutes: Routes = [
     {path:'', component:HomeComponent},
-    {path:"bases", component:BasesComponent}
+    {path:"bases", component:BasesComponent},
+    {path:"bases/:id/schemas", component:SchemaComponent}
   ];
 @NgModule({
   declarations: [
     AppComponent,
     UserComponent,
     HomeComponent,
-    BasesComponent
+    BasesComponent,
+    SchemaComponent
   ],
   imports: [
     HttpClientModule,
@@ -40,7 +44,8 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     AuthInterceptorProvider,
     StorageService,
     UserService,
-    BaseService
+    BaseService,
+    SchemaService
   ],
   bootstrap: [AppComponent]
 })
