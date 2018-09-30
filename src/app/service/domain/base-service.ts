@@ -21,4 +21,8 @@ export class BaseService{
     getter(){
         return this.base;
     }
+
+    findPage(page : number, linesPerPage : number, orderBy: string, direction: string ){
+        return this.http.get(`${API_CONFIG.baseUrl}/bases/page?page=${page}&linesPerPage=${linesPerPage}&orderBy=${orderBy}&direction=${direction}`);
+    }
 }

@@ -14,6 +14,11 @@ export class HomeComponent implements OnInit {
     password: ""
   };
 
+  page : number = 0;
+  linesPerPage : number = 24;
+  orderBy: string = 'name';
+  direction: string = 'ASC';
+
   constructor( public auth: AuthService, private router: Router) { }
 
   ngOnInit() {
@@ -24,7 +29,7 @@ export class HomeComponent implements OnInit {
     this.auth.authenticate(this.creds)
     .subscribe(response => {
         this.auth.sucessfullLogin(response.headers.get("Authorization"));
-        this.router.navigate(['bases']);
+        this.router.navigate(["/bases/page"]);
     },
     error=>{})
   }

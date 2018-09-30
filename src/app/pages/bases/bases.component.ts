@@ -11,22 +11,84 @@ import { BaseService } from '../../service/domain/base-service';
 export class BasesComponent implements OnInit {
 
 
-  bases: BaseDTO[];
+  bases: BaseDTO[] = [];
+  pages: number[];
+  linesValue: number[] = [1, 2, 3, 4];
+  page: number = 0;
+  linesPerPage: number = 24;
+  orderBy: string = 'name';
+  direction: string = 'ASC';
+  numberOfPages: number=0;
+  total: number;
+
   constructor(public baseService: BaseService, private router: Router) { }
 
+
   ngOnInit() {
-    this.baseService.findBases()
-      .subscribe(response => {
-        this.bases = response;
-      },
-        error => { });
+
+   
+    this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
+
+      
   }
 
 
   showSchemas(base: BaseDTO) {
     this.baseService.setter(base)
     this.router.navigate([(`/bases/${base.id}/schemas`)]);
-    
 
   }
+
+  showBases(page: number, linesPerPage: number, orderBy: string, direction: string) {
+    this.baseService.findPage(page, linesPerPage, orderBy, direction)
+      .subscribe(response => {
+        this.bases = this.bases.concat(response['content']);
+        this.numberOfPages = response['totalPages'];
+        this.pages=[];
+        this.total = this.bases.length
+       
+        this.ofTotal = (page * linesPerPage);
+        for( var i = 0; i < this.numberOfPages; i++){
+          this.pages.push(i);
+          console.log(this.pages)
+        }
+       
+      },
+        error => { });
+
+       
+  }
+
+  selectLines(event: any) {
+    this.linesPerPage = event.target.value;
+    this.bases = [];
+    this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
+    
+  }
+
+  selectPage(page: number) {
+    this.page = page;
+    
+    this.bases = [];
+    this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
+   
+  }
+
+  nextPage(){
+    console.log("page ", this.page);
+    this.page = this.page + 1;
+    console.log("next ", this.page);
+    this.bases = [];
+    this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
+  }
+
+  previousPage(){
+    console.log("page ", this.page);
+    this.page = this.page - 1;
+    console.log("pre ", this.page);
+    this.bases = [];
+    this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
+  }
 }
+
+
