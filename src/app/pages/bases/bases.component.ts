@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { BaseDTO } from '../../models/bases.dto';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { BaseDTO } from '../../models/bases.dto';
 import { BaseService } from '../../service/domain/base-service';
 
 @Component({
   selector: 'app-bases',
   templateUrl: './bases.component.html',
-  styleUrls: ['./bases.component.css']
+  styleUrls: ['./bases.component.css'],
+  encapsulation : ViewEncapsulation.None,
 })
 export class BasesComponent implements OnInit {
 
@@ -46,8 +47,7 @@ export class BasesComponent implements OnInit {
         this.numberOfPages = response['totalPages'];
         this.pages=[];
         this.total = this.bases.length
-       
-        this.ofTotal = (page * linesPerPage);
+      
         for( var i = 0; i < this.numberOfPages; i++){
           this.pages.push(i);
           console.log(this.pages)
