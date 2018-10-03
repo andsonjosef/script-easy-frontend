@@ -19,7 +19,7 @@ import { BasesComponent } from './pages/bases/bases.component';
  const appRoutes: Routes = [
     {path:'', component:HomeComponent},
     {path:"bases/page", component:BasesComponent},
-    {path:"bases/:id/schemas", component:SchemaComponent}
+    {path:"bases/:id/schemas/page", component:SchemaComponent}
   ];
 @NgModule({
   declarations: [

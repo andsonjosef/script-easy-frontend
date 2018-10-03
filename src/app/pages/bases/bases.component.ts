@@ -2,16 +2,25 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseDTO } from '../../models/bases.dto';
 import { BaseService } from '../../service/domain/base-service';
+import { UserService } from '../../service/domain/user-service';
+import { StorageService } from '../../service/storage.service';
+import { UserDTO } from '../../models/user-dto';
 
 @Component({
   selector: 'app-bases',
   templateUrl: './bases.component.html',
   styleUrls: ['./bases.component.css'],
-  encapsulation : ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
 })
 export class BasesComponent implements OnInit {
 
 
+  user: UserDTO;
+  nBase: BaseDTO = {
+    name: "",
+    id: "",
+  };
+  email: string;
   bases: BaseDTO[] = [];
   pages: number[];
   linesValue: number[] = [1, 2, 3, 4];
@@ -19,18 +28,18 @@ export class BasesComponent implements OnInit {
   linesPerPage: number = 24;
   orderBy: string = 'name';
   direction: string = 'ASC';
-  numberOfPages: number=0;
+  numberOfPages: number = 0;
   total: number;
 
-  constructor(public baseService: BaseService, private router: Router) { }
+  constructor(public baseService: BaseService, public storageService: StorageService, public userService: UserService, private router: Router) { }
 
 
   ngOnInit() {
 
-   
+
     this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
 
-      
+
   }
 
 
@@ -45,47 +54,55 @@ export class BasesComponent implements OnInit {
       .subscribe(response => {
         this.bases = this.bases.concat(response['content']);
         this.numberOfPages = response['totalPages'];
-        this.pages=[];
+        this.pages = [];
         this.total = this.bases.length
-      
-        for( var i = 0; i < this.numberOfPages; i++){
+
+        for (var i = 0; i < this.numberOfPages; i++) {
           this.pages.push(i);
           console.log(this.pages)
         }
-       
+
       },
         error => { });
 
-       
+
   }
 
   selectLines(event: any) {
     this.linesPerPage = event.target.value;
     this.bases = [];
     this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
-    
+
   }
 
   selectPage(page: number) {
     this.page = page;
-    
+
     this.bases = [];
     this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
-   
+
   }
 
-  nextPage(){
-    console.log("page ", this.page);
+  nextPage() {
     this.page = this.page + 1;
-    console.log("next ", this.page);
     this.bases = [];
     this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
   }
 
-  previousPage(){
-    console.log("page ", this.page);
+  newBase() {
+    console.log(this.nBase.name);
+    this.baseService.insert(this.nBase)
+    .subscribe(response => {
+      this.bases = [];
+      this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
+    },
+    error => {});
+  
+  }
+
+
+  previousPage() {
     this.page = this.page - 1;
-    console.log("pre ", this.page);
     this.bases = [];
     this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
   }

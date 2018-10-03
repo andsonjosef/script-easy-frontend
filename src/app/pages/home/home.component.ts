@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   }
 
   login(){
-    console.log(this.creds.email, this.creds.password);
+  
     this.auth.authenticate(this.creds)
     .subscribe(response => {
         this.auth.sucessfullLogin(response.headers.get("Authorization"));

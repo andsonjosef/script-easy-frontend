@@ -25,4 +25,15 @@ export class BaseService{
     findPage(page : number, linesPerPage : number, orderBy: string, direction: string ){
         return this.http.get(`${API_CONFIG.baseUrl}/bases/page?page=${page}&linesPerPage=${linesPerPage}&orderBy=${orderBy}&direction=${direction}`);
     }
+
+    insert(obj : BaseDTO) {
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/bases`, 
+            obj,
+            { 
+                observe: 'response', 
+                responseType: 'text'
+            }
+        ); 
+    }
 }

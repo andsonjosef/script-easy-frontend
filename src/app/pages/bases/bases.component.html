@@ -145,58 +145,107 @@
         <!--/col-->
 
         <div class="col main pt-5 mt-3">
-            <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="dataTables_length" style="padding-left: 60px" id="dataTables-example_length"><label>Show
-                                <select (change)="selectLines($event)" name="dataTables-example_length" aria-controls="dataTables-example"
-                                    class="form-control input-sm">
-                                    <option *ngFor="let linesValue of linesValue" >{{linesValue}}</option>
+            <div class="row">
+                <div class="col-sm-12 col-md-5">
+                    <label>Show </label><select (change)="selectLines($event)" style="width: min-content;" name="dataTable_length"
+                        aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
+                        <option *ngFor="let linesValue of linesValue">{{linesValue}}</option>
+                    </select><label> entries</label>
+                </div>
 
-                                </select> entries</label></div>
+                <div class="col-sm-12 col-md-7">
+                    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                        <ul class="pagination" style="float: right;">
+                            <li [className]="page!=0 ? 'paginate_button page-item previous' : 'paginate_button page-item previous disabled'"
+                                id="dataTable_previous"><a href="#" (click)="$event.preventDefault();previousPage()"
+                                    aria-controls="dataTable" data-dt-idx="0" tabindex="pag" class="page-link">Previous</a></li>
+                            <li *ngFor="let pag of pages" [className]="pag!=page ? 'paginate_button page-item' : 'paginate_button page-item active'"><a
+                                    href="#" (click)="$event.preventDefault();selectPage(pag)" aria-controls="dataTable"
+                                    data-dt-idx="1" tabindex="pag" class="page-link">{{pag+1}}</a></li>
+
+                            <li [className]="page==(numberOfPages - 1) ? 'paginate_button page-item next disabled' : 'paginate_button page-item next'"
+                                id="dataTable_next"><a href="#" (click)="$event.preventDefault();nextPage()"
+                                    aria-controls="dataTable" data-dt-idx="7" tabindex="{{pag}}" class="page-link">Next</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
             <div class="row mb-3">
 
                 <div class="col-xl-3 col-sm-6 py-2" *ngFor="let base of bases">
-                   
+
                     <div class="card text-white bg-info h-100">
                         <div class="card-body bg-info">
-                                <a  style="text-decoration: none; color: inherit" href="#"  (click)="$event.preventDefault();showSchemas(base)">
-                            <div class="rotate">
-                                <i class="fa fa-database fa-4x"></i>
-                            </div>
-                            <h1 class="display-4">{{base.name}}</h1>
+                            <a style="text-decoration: none; color: inherit" href="#" (click)="$event.preventDefault();showSchemas(base)">
+                                <div class="rotate">
+                                    <i class="fa fa-database fa-4x"></i>
+                                </div>
+                                <h1 class="display-4">{{base.name}}</h1>
                             </a>
                             <div class="bd-example">
-                                    <button type="button" class="btn btn-light" style="margin-right: 5px">  <span class="fa fa-edit fa-1x"></span></button>
-                                    <button type="button" class="btn btn-light">  <span class="fa fa-trash fa-1x"></span></button>
+                                <button type="button" class="btn btn-light" style="margin-right: 5px"> <span class="fa fa-edit fa-1x"></span></button>
+                                <button type="button" class="btn btn-light"> <span class="fa fa-trash fa-1x"></span></button>
                             </div>
                         </div>
                     </div>
-              
+
                 </div>
-                
+
 
             </div>
             <!--/row-->
-            <nav aria-label="...">
-                <ul class="pagination justify-content-end">
-                    <li [className]="page!=0 ? 'page-item' : 'page-item disabled'">
-                            <a class="page-link" href="#" (click)="$event.preventDefault();previousPage()">Previous</a>
-                    </li>
-                    <li *ngFor="let pag of pages" [className]="pag!=page ? 'page-item' : 'page-item active'"><a class="page-link"
-                            href="#" (click)="$event.preventDefault();selectPage(pag)">{{pag+1}}</a></li>
+            <div class="row">
+                <div class="col-sm-12 col-md-5">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">New</button>
+                </div>
 
-                    <li [className]="page==(numberOfPages - 1) ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" href="#" (click)="$event.preventDefault();nextPage()">Next</a>
-                    </li>
-                </ul>
-            </nav>
+                <div class="col-sm-12 col-md-7">
+                    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                        <ul class="pagination" style="float: right;">
+                            <li [className]="page!=0 ? 'paginate_button page-item previous' : 'paginate_button page-item previous disabled'"
+                                id="dataTable_previous"><a href="#" (click)="$event.preventDefault();previousPage()"
+                                    aria-controls="dataTable" data-dt-idx="0" tabindex="pag" class="page-link">Previous</a></li>
+                            <li *ngFor="let pag of pages" [className]="pag!=page ? 'paginate_button page-item' : 'paginate_button page-item active'"><a
+                                    href="#" (click)="$event.preventDefault();selectPage(pag)" aria-controls="dataTable"
+                                    data-dt-idx="1" tabindex="pag" class="page-link">{{pag+1}}</a></li>
+
+                            <li [className]="page==(numberOfPages - 1) ? 'paginate_button page-item next disabled' : 'paginate_button page-item next'"
+                                id="dataTable_next"><a href="#" (click)="$event.preventDefault();nextPage()"
+                                    aria-controls="dataTable" data-dt-idx="7" tabindex="{{pag}}" class="page-link">Next</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
         <!--/main col-->
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New Database</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <div class="form-group">
+                                <input [(ngModel)]="nBase.name" class="form-control" placeholder="Name" name="name" type="text" autofocus="">
+                            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" (click) = "newBase()">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 
