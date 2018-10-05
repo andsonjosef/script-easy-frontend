@@ -18,6 +18,7 @@ import { BasesComponent } from './pages/bases/bases.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule } from 'ng6-toastr';
 import { ErrorInterceptorProvider } from './interceptor/error-interceptor';
+import { MessageService } from './service/domain/message.service';
 
  const appRoutes: Routes = [
     {path:'', component:HomeComponent},
@@ -49,7 +50,8 @@ import { ErrorInterceptorProvider } from './interceptor/error-interceptor';
     UserService,
     BaseService,
     SchemaService,
-    ErrorInterceptorProvider
+    ErrorInterceptorProvider,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

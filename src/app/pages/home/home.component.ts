@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CredentialsDTO } from '../../models/credentials.dto';
 import { AuthService } from '../../service/auth-service';
 import { ToastsManager } from 'ng6-toastr';
+import { MessageService } from '../../service/domain/message.service';
 
 
 @Component({
@@ -16,29 +17,28 @@ export class HomeComponent implements OnInit {
     password: ""
   };
 
-  page : number = 0;
-  linesPerPage : number = 24;
+  page: number = 0;
+  linesPerPage: number = 24;
   orderBy: string = 'name';
   direction: string = 'ASC';
 
-  constructor( public auth: AuthService, private router: Router, public toastr: ToastsManager, vcr: ViewContainerRef) {
+  constructor(public auth: AuthService, private router: Router, public toastr: ToastsManager, vcr: ViewContainerRef, public message: MessageService) {
     this.toastr.setRootViewContainerRef(vcr);
-   }
+  }
 
   ngOnInit() {
   }
 
-  login(){
-  console.log("creds ", this.creds.email)
+  login() {
+    console.log("creds ", this.creds.email)
     this.auth.authenticate(this.creds)
-    .subscribe(response => {
+      .subscribe(response => {
         this.auth.sucessfullLogin(response.headers.get("Authorization"));
         this.router.navigate(["/bases/page"]);
-    },
-    error=>{
-                console.log("i'm here")
-          this.toastr.error('This is not good!', 'Oops!');
-    })
+      },
+        error => {
+          this.toastr.error(this.message.getter());
+        })
   }
   showSuccess() {
     this.toastr.success('You are awesome!', 'Success!');
@@ -52,9 +52,9 @@ export class HomeComponent implements OnInit {
   showInfo() {
     this.toastr.info('Just some information for you.');
   }
-  
+
   showCustom() {
-    this.toastr.custom('<span style="color: red">Message in red.</span>', null, {enableHTML: true});
+    this.toastr.custom('<span style="color: red">Message in red.</span>', null, { enableHTML: true });
   }
 
 }

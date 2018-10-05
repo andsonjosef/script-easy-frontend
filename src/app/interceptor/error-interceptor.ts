@@ -4,15 +4,15 @@ import { Observable } from "rxjs/Rx";
 import { StorageService } from "../service/storage.service";
 import { FieldMessage } from "../service/domain/fieldmessage";
 import { ToastsManager } from "ng6-toastr";
+import { MessageService } from "../service/domain/message.service";
 
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-    constructor(public storage: StorageService,
-        public toastr: ToastsManager,
-        vcr: ViewContainerRef) {
-        this.toastr.setRootViewContainerRef(vcr);
+    constructor(public storage: StorageService,public message: MessageService
+      ) {
+       
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -52,13 +52,14 @@ export class ErrorInterceptor implements HttpInterceptor {
     } 
 
     handleDefaultError(errorObj){
-      this.toastr.error('error!' + errorObj.status + ': ' + errorObj.error + " " + errorObj.message);
+        
+    this.message.setter('error!' + errorObj.status + ': ' + errorObj.error + " " + errorObj.message);
 
     }
 
     handle401(){
-        console.log("here 401");
-        this.toastr.error('Error 401: Authentication failed! invalid email or password');
+      
+        this.message.setter('Error 401: Authentication failed! invalid email or password');
       
     }
 
@@ -67,7 +68,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     handle422(errorObj) {
-        this.toastr.error('Error 422: Validation!' + this.listErrors(errorObj.errors));
+        this.message.setter('Error 422: Validation!' + this.listErrors(errorObj.errors));
       
     }
 
@@ -77,6 +78,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             s = s + '<p><strong>' + messages[i].fieldName + "</strong>: " + messages[i].message + '</p>';
         }
         return s;
+        
     }
 }
 
