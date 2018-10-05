@@ -36,4 +36,24 @@ export class BaseService{
             }
         ); 
     }
+
+    update(obj : BaseDTO) {
+        return this.http.put(
+            `${API_CONFIG.baseUrl}/bases/${obj.id}`, 
+            obj,
+            { 
+                observe: 'response', 
+                responseType: 'text'
+            }
+        ); 
+    }
+    delete(obj : BaseDTO) {
+        return this.http.delete(
+            `${API_CONFIG.baseUrl}/bases/${obj.id}`, 
+            { 
+                observe: 'response', 
+                responseType: 'text'
+            }
+        ); 
+    }
 }

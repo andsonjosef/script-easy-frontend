@@ -15,6 +15,9 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { SchemaService } from './service/domain/schema-service';
 import { SchemaComponent } from './pages/schema/schema.component';
 import { BasesComponent } from './pages/bases/bases.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastModule } from 'ng6-toastr';
+import { ErrorInterceptorProvider } from './interceptor/error-interceptor';
 
  const appRoutes: Routes = [
     {path:'', component:HomeComponent},
@@ -32,10 +35,12 @@ import { BasesComponent } from './pages/bases/bases.component';
   imports: [
     HttpClientModule,
     BrowserModule,
+    BrowserAnimationsModule, 
     RouterModule.forRoot(appRoutes),
     FormsModule,
     ReactiveFormsModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    ToastModule.forRoot()
   ],
   providers: [
     AuthService,
@@ -43,7 +48,8 @@ import { BasesComponent } from './pages/bases/bases.component';
     StorageService,
     UserService,
     BaseService,
-    SchemaService
+    SchemaService,
+    ErrorInterceptorProvider
   ],
   bootstrap: [AppComponent]
 })
