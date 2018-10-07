@@ -6,7 +6,8 @@ import { BaseDTO } from "../../models/bases.dto";
 
 @Injectable()
 export class BaseService{
-    private base: BaseDTO;
+    private static base: BaseDTO;
+    base: BaseDTO;
     constructor(public http: HttpClient){
     }
 
@@ -19,11 +20,17 @@ export class BaseService{
     }
 
     getter(){
-        return this.base;
+        const newLocal = this;
+        return newLocal.base;
     }
 
     findPage(page : number, linesPerPage : number, orderBy: string, direction: string ){
         return this.http.get(`${API_CONFIG.baseUrl}/bases/page?page=${page}&linesPerPage=${linesPerPage}&orderBy=${orderBy}&direction=${direction}`);
+    }
+
+    find(id: number){
+        return this.http.get<BaseDTO>(`${API_CONFIG.baseUrl}/bases/${id}`);
+
     }
 
     insert(obj : BaseDTO) {

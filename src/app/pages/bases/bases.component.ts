@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewContainerRef, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseDTO } from '../../models/bases.dto';
 import { BaseService } from '../../service/domain/base-service';
 import { UserService } from '../../service/domain/user-service';
 import { StorageService } from '../../service/storage.service';
 import { UserDTO } from '../../models/user-dto';
+import { ToastsManager } from 'ng6-toastr';
+import { MessageService } from '../../service/domain/message.service';
 
 @Component({
     selector: 'app-bases',
@@ -34,26 +36,33 @@ export class BasesComponent implements OnInit {
     direction: string = 'ASC';
     numberOfPages: number = 0;
     total: number;
-
-    constructor(public baseService: BaseService, public storageService: StorageService, public userService: UserService, private router: Router) { }
+    @ViewChild('closeNewModal') closeNewModal: ElementRef;
+    @ViewChild('closeUpdateModal') closeUpdateModal: ElementRef;
+    @ViewChild('closeDeleteModal') closeDeleteModal: ElementRef;
+    constructor(
+        public baseService: BaseService,
+        public storageService: StorageService,
+        public userService: UserService,
+        private router: Router,
+        public toastr: ToastsManager,
+        vcr: ViewContainerRef,
+        public message: MessageService) {
+        this.toastr.setRootViewContainerRef(vcr);
+    }
 
 
     ngOnInit() {
-
-
         this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
-
-
     }
 
 
     showSchemas(base: BaseDTO) {
         this.baseService.setter(base)
-        this.router.navigate([(`/bases/${base.id}/schemas`)]);
+        this.router.navigate([(`/bases/${base.id}/schemas/page`)]);
 
     }
 
-    selectBase(base: BaseDTO) {
+    select(base: BaseDTO) {
         this.sBase = base;
         console.log("selected " + this.sBase);
     }
@@ -72,9 +81,7 @@ export class BasesComponent implements OnInit {
                 }
 
             },
-                error => { });
-
-
+                error => { this.toastr.error(this.message.getter()); });
     }
 
     selectLines(event: any) {
@@ -98,36 +105,46 @@ export class BasesComponent implements OnInit {
         this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
     }
 
-    newBase() {
+    insert() {
+        
         console.log(this.nBase.name);
         this.baseService.insert(this.nBase)
             .subscribe(response => {
                 this.bases = [];
                 this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
+                this.toastr.success('Base created!', 'Success!');
+                this.closeNewModal.nativeElement.click();
             },
-                error => { });
+                error => { this.toastr.error(this.message.getter()); });
 
     }
 
-    updateBase() {
-       
+    update() {
+
         this.baseService.update(this.sBase)
             .subscribe(response => {
                 this.bases = [];
                 this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
+                this.toastr.success('Base updated!', 'Success!');
+                document.getElementById('newModal').click();
+                this.closeUpdateModal.nativeElement.click();
+
             },
-                error => { });
+                error => { this.toastr.error(this.message.getter()); });
 
     }
 
-    deleteBase() {
-        
+    delete() {
+
         this.baseService.delete(this.sBase)
             .subscribe(response => {
                 this.bases = [];
                 this.showBases(this.page, this.linesPerPage, this.orderBy, this.direction);
+                this.toastr.success('Base deleted!', 'Success!');
+                this.closeDeleteModal.nativeElement.click();
+
             },
-                error => { });
+                error => { this.toastr.error(this.message.getter()); });
 
     }
 

@@ -184,7 +184,7 @@
                             </a>
                             <div class="bd-example">
                                 <button type="button" class="btn btn-light" data-toggle="modal" style="margin-right: 5px" (click)="selectBase(base)" data-target="#updateModal"> <span class="fa fa-edit fa-1x"></span></button>
-                                <button type="button" class="btn btn-light" (click)="selectBase(base)"  data-toggle="modal" data-target="#deleteModal"> <span class="fa fa-trash fa-1x"  ></span></button>
+                                <button type="button" class="btn btn-light" (click)="select(base)"  data-toggle="modal" data-target="#deleteModal"> <span class="fa fa-trash fa-1x"  ></span></button>
                             </div>
                         </div>
                     </div>
@@ -242,8 +242,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" (click)="newBase()">Save changes</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" #closeNewModal>Close</button>
+                    <button type="submit" class="btn btn-success" id="newBtn" (click)="insert()">Save</button>
                 </div>
             </div>
         </div>
@@ -255,7 +255,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="updateModalLabel">Edit Database</h5>
+                    <h5 class="modal-title" id="updateModalLabel">Update Database</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -267,8 +267,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" (click)="updateBase()">Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" #closeUpdateModal>Close</button>
+                    <button type="submit" class="btn btn-success" (click)="update()">Save</button>
                 </div>
             </div>
         </div>
@@ -291,8 +291,8 @@
                  </div>
              </div>
              <div class="modal-footer">
-                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                 <button type="submit" class="btn btn-primary" (click)="deleteBase()">Yes</button>
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeDeleteModal>No</button>
+                 <button type="submit" class="btn btn-danger" (click)="delete()">Yes</button>
              </div>
          </div>
      </div>

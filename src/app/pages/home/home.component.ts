@@ -22,7 +22,12 @@ export class HomeComponent implements OnInit {
   orderBy: string = 'name';
   direction: string = 'ASC';
 
-  constructor(public auth: AuthService, private router: Router, public toastr: ToastsManager, vcr: ViewContainerRef, public message: MessageService) {
+  constructor(
+    public auth: AuthService,
+     private router: Router, 
+     public toastr: ToastsManager, 
+     vcr: ViewContainerRef, 
+     public message: MessageService) {
     this.toastr.setRootViewContainerRef(vcr);
   }
 
