@@ -25,6 +25,11 @@ export class SchemaService{
         return this.schema;
     }
 
+    find(id: number){
+        return this.http.get<SchemaDTO>(`${API_CONFIG.baseUrl}/schemas/${id}`);
+
+    }
+
     findPage(base: BaseDTO, page : number, linesPerPage : number, orderBy: string, direction: string ){
         console.log("id aaa", base.id);
         return this.http.get(`${API_CONFIG.baseUrl}/bases/${base.id}/schemas/page?page=${page}&linesPerPage=${linesPerPage}&orderBy=${orderBy}&direction=${direction}`);

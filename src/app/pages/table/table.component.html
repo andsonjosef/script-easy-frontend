@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schemas</title>
+    <title>Tables</title>
     <base target="_self">
 
 
@@ -172,19 +172,21 @@
             </div>
             <div class="row mb-3">
 
-                <div class="col-xl-3 col-sm-6 py-2" *ngFor="let schema of schemas">
+                <div class="col-xl-3 col-sm-6 py-2" *ngFor="let table of tables">
 
                     <div class="card text-white bg-info h-100">
                         <div class="card-body bg-info">
-                            <a style="text-decoration: none; color: inherit" href="#" (click)="$event.preventDefault();showTables(schema)">
+                            <a style="text-decoration: none; color: inherit" href="#" (click)="$event.preventDefault();showTables(table)">
                                 <div class="rotate">
                                     <i class="fa fa-database fa-4x"></i>
                                 </div>
-                                <h1 class="display-4">{{schema.name}}</h1>
+                                <h1 class="display-4">{{table.name}}</h1>
                             </a>
                             <div class="bd-example">
-                                <button type="button" class="btn btn-light" data-toggle="modal" style="margin-right: 5px" (click)="select(schema)" data-target="#updateModal"> <span class="fa fa-edit fa-1x"></span></button>
-                                <button type="button" class="btn btn-light" (click)="select(schema)"  data-toggle="modal" data-target="#deleteModal"> <span class="fa fa-trash fa-1x"  ></span></button>
+                                <button type="button" class="btn btn-light" data-toggle="modal" style="margin-right: 5px"
+                                    (click)="select(table)" data-target="#updateModal"> <span class="fa fa-edit fa-1x"></span></button>
+                                <button type="button" class="btn btn-light" (click)="select(table)" data-toggle="modal"
+                                    data-target="#deleteModal"> <span class="fa fa-trash fa-1x"></span></button>
                             </div>
                         </div>
                     </div>
@@ -222,20 +224,19 @@
         <!--/main col-->
     </div>
 
-    <!-- Modal newSchema-->
-    <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel"
-        aria-hidden="true">
+    <!-- Modal newTable-->
+    <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="newModalLabel">New Schema</h5>
+                    <h5 class="modal-title" id="newModalLabel">New Table</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input [(ngModel)]="nSchema.name" class="form-control" placeholder="Name" name="name" type="text"
+                        <input [(ngModel)]="nTable.name" class="form-control" placeholder="Name" name="name" type="text"
                             autofocus="">
                     </div>
                 </div>
@@ -253,14 +254,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="updateModalLabel">Update Schema</h5>
+                    <h5 class="modal-title" id="updateModalLabel">Update Table</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input [(ngModel)]="sSchema.name" class="form-control" placeholder="Name" name="name" type="text"
+                        <input [(ngModel)]="sTable.name" class="form-control" placeholder="Name" name="name" type="text"
                             autofocus="">
                     </div>
                 </div>
@@ -272,29 +273,29 @@
         </div>
     </div>
 
-     <!-- Modal DeleteSchema-->
-     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModallLabel"
-     aria-hidden="true">
-     <div class="modal-dialog" role="document">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <h5 class="modal-title" id="deleteModallLabel">Delete Schema</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                     <span aria-hidden="true">&times;</span>
-                 </button>
-             </div>
-             <div class="modal-body">
-                 <div class="form-group">
-                    <p>Are you sure you wanna delete the Schema {{sSchema.name}}?</p>
-                 </div>
-             </div>
-             <div class="modal-footer">
-                 <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeDeleteModal>No</button>
-                 <button type="submit" class="btn btn-danger" (click)="delete()">Yes</button>
-             </div>
-         </div>
-     </div>
- </div>
+    <!-- Modal DeleteTable-->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModallLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModallLabel">Delete Table</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <p>Are you sure you wanna delete the Table {{sTable.name}}?</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeDeleteModal>No</button>
+                    <button type="submit" class="btn btn-danger" (click)="delete()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script>

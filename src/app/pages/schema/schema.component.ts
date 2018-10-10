@@ -47,9 +47,8 @@ export class SchemaComponent implements OnInit {
   @ViewChild('closeDeleteModal') closeDeleteModal: ElementRef;
   schemas: SchemaDTO[] = [];
   constructor(
-    
+
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     public baseService: BaseService,
     public schemaService: SchemaService,
     public rParams: ActivatedRoute,
@@ -62,7 +61,6 @@ export class SchemaComponent implements OnInit {
   ngOnInit() {
 
     this.id = parseInt(this.router.url.substring(this.router.url.indexOf("/bases/") + 7, this.router.url.indexOf("/schemas")));
-   console.log("man " + this.id);
     this.getBase(this.id);
 
   }
@@ -72,15 +70,13 @@ export class SchemaComponent implements OnInit {
     this.baseService.find(id)
       .subscribe(response => {
         this.base = response;
-        console.log("what about now ?" + this.base.id + " " + this.base.name);
-         this.showSchemas(this.base, this.page, this.linesPerPage, this.orderBy, this.direction);
+        this.showSchemas(this.base, this.page, this.linesPerPage, this.orderBy, this.direction);
       },
         error => { this.toastr.error(this.message.getter()); });
   }
 
   select(schema: SchemaDTO) {
     this.sSchema = schema;
-    console.log("selected " + this.sSchema);
   }
 
   showSchemas(base: BaseDTO, page: number, linesPerPage: number, orderBy: string, direction: string) {
@@ -90,7 +86,6 @@ export class SchemaComponent implements OnInit {
         this.numberOfPages = response['totalPages'];
         this.pages = [];
         this.total = this.schemas.length
-        console.log("helo", this.schemas)
         for (var i = 0; i < this.numberOfPages; i++) {
           this.pages.push(i);
 
@@ -120,7 +115,6 @@ export class SchemaComponent implements OnInit {
   }
 
   insert() {
-    console.log("ok");
     this.nSchema.base = this.base;
     this.schemaService.insert(this.nSchema)
       .subscribe(response => {
@@ -135,46 +129,39 @@ export class SchemaComponent implements OnInit {
 
   update() {
     this.baseService.find(this.id)
-    .subscribe(response => {
-      this.base = response;
-      this.sSchema.base = this.base;
-      console.log("not again! " + this.sSchema.id + this.sSchema.name + this.sSchema.base.id + this.sSchema.base.name)
-      this.schemaService.update(this.sSchema)
-      .subscribe(response => {
-        this.schemas = [];
-        this.showSchemas(this.base, this.page, this.linesPerPage, this.orderBy, this.direction);
-        this.toastr.success('Schema updated!', 'Success!');
-        document.getElementById('newModal').click();
-        this.closeUpdateModal.nativeElement.click();
-
-      },
-        error => { this.toastr.error(this.message.getter()); });
-    },
-      error => { this.toastr.error(this.message.getter()); });
-
-   
-
-  }
-
-  delete() {
- this.baseService.find(this.id)
       .subscribe(response => {
         this.base = response;
         this.sSchema.base = this.base;
-        console.log("not again! " + this.sSchema.id + this.sSchema.name + this.sSchema.base.id + this.sSchema.base.name)
-        this.schemaService.delete(this.sSchema)
-        .subscribe(response => {
-          this.schemas = [];
-          this.showSchemas(this.base, this.page, this.linesPerPage, this.orderBy, this.direction);
-          this.toastr.success('Schema deleted!', 'Success!');
-          this.closeDeleteModal.nativeElement.click();
-  
-        },
-          error => { this.toastr.error(this.message.getter()); });
+        this.schemaService.update(this.sSchema)
+          .subscribe(response => {
+            this.schemas = [];
+            this.showSchemas(this.base, this.page, this.linesPerPage, this.orderBy, this.direction);
+            this.toastr.success('Schema updated!', 'Success!');
+            document.getElementById('newModal').click();
+            this.closeUpdateModal.nativeElement.click();
+
+          },
+            error => { this.toastr.error(this.message.getter()); });
       },
         error => { this.toastr.error(this.message.getter()); });
-   
+  }
 
+  delete() {
+    this.baseService.find(this.id)
+      .subscribe(response => {
+        this.base = response;
+        this.sSchema.base = this.base;
+        this.schemaService.delete(this.sSchema)
+          .subscribe(response => {
+            this.schemas = [];
+            this.showSchemas(this.base, this.page, this.linesPerPage, this.orderBy, this.direction);
+            this.toastr.success('Schema deleted!', 'Success!');
+            this.closeDeleteModal.nativeElement.click();
+
+          },
+            error => { this.toastr.error(this.message.getter()); });
+      },
+        error => { this.toastr.error(this.message.getter()); });
   }
 
 
@@ -183,5 +170,12 @@ export class SchemaComponent implements OnInit {
     this.schemas = [];
     this.showSchemas(this.base, this.page, this.linesPerPage, this.orderBy, this.direction);
   }
+
+  
+  showTables(schema: SchemaDTO) {
+    this.schemaService.setter(schema)
+    this.router.navigate([(`/schemas/${schema.id}/tables/page`)]);
+
+}
 
 }

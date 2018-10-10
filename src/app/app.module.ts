@@ -19,11 +19,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule } from 'ng6-toastr';
 import { ErrorInterceptorProvider } from './interceptor/error-interceptor';
 import { MessageService } from './service/domain/message.service';
+import { TableComponent } from './pages/table/table.component';
+import { TableService } from './service/domain/table-service';
 
  const appRoutes: Routes = [
     {path:'', component:HomeComponent},
     {path:"bases/page", component:BasesComponent},
-    {path:"bases/:id/schemas/page", component:SchemaComponent}
+    {path:"bases/:id/schemas/page", component:SchemaComponent},
+    {path:"schemas/:id/tables/page", component:TableComponent}
   ];
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import { MessageService } from './service/domain/message.service';
     UserComponent,
     HomeComponent,
     BasesComponent,
-    SchemaComponent
+    SchemaComponent,
+    TableComponent
   ],
   imports: [
     HttpClientModule,
@@ -51,7 +55,8 @@ import { MessageService } from './service/domain/message.service';
     BaseService,
     SchemaService,
     ErrorInterceptorProvider,
-    MessageService
+    MessageService,
+    TableService
   ],
   bootstrap: [AppComponent]
 })
