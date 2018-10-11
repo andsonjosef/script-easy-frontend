@@ -79,8 +79,7 @@ export class TableComponent implements OnInit {
 
   ngOnInit() {
     this.id = parseInt(this.router.url.substring(this.router.url.indexOf("/schemas/") + 9, this.router.url.indexOf("/tables")));
-    console.log("man " + this.id);
-     this.getSchema(this.id);
+    this.getSchema(this.id);
   }
 
   getSchema(id: number) {
@@ -185,5 +184,11 @@ export class TableComponent implements OnInit {
       },
         error => { this.toastr.error(this.message.getter()); });
   }
+
+  showAttributes(table: TableDTO) {
+    this.tableService.setter(table)
+    this.router.navigate([(`/tables/${table.id}/attributes/page`)]);
+
+}
 
 }

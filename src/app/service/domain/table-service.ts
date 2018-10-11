@@ -17,8 +17,8 @@ export class TableService{
         return this.http.get<TableDTO[]>(`${API_CONFIG.baseUrl}/schemas/${schema_id}/tables`);
     }
 
-    setter(Table:TableDTO){
-        this.table = Table;
+    setter(table:TableDTO){
+        this.table = table;
     }
 
     getter(){
@@ -58,5 +58,10 @@ export class TableService{
                 responseType: 'text'
             }
         ); 
+    }
+
+    find(id: number){
+        return this.http.get<TableDTO>(`${API_CONFIG.baseUrl}/tables/${id}`);
+
     }
 }

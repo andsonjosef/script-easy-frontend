@@ -21,12 +21,16 @@ import { ErrorInterceptorProvider } from './interceptor/error-interceptor';
 import { MessageService } from './service/domain/message.service';
 import { TableComponent } from './pages/table/table.component';
 import { TableService } from './service/domain/table-service';
+import { NewAttributeComponent } from './pages/new-attribute/new-attribute.component';
+import { AttributeComponent } from './pages/attribute/attribute.component';
+import { AttributeService } from './service/domain/attribute-service';
 
  const appRoutes: Routes = [
     {path:'', component:HomeComponent},
     {path:"bases/page", component:BasesComponent},
     {path:"bases/:id/schemas/page", component:SchemaComponent},
-    {path:"schemas/:id/tables/page", component:TableComponent}
+    {path:"schemas/:id/tables/page", component:TableComponent},
+    {path:"tables/:id/attributes/page", component:AttributeComponent}
   ];
 @NgModule({
   declarations: [
@@ -35,7 +39,9 @@ import { TableService } from './service/domain/table-service';
     HomeComponent,
     BasesComponent,
     SchemaComponent,
-    TableComponent
+    TableComponent,
+    NewAttributeComponent,
+    AttributeComponent
   ],
   imports: [
     HttpClientModule,
@@ -56,7 +62,8 @@ import { TableService } from './service/domain/table-service';
     SchemaService,
     ErrorInterceptorProvider,
     MessageService,
-    TableService
+    TableService,
+    AttributeService
   ],
   bootstrap: [AppComponent]
 })
