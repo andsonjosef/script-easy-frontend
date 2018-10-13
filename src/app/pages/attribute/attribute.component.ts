@@ -42,11 +42,11 @@ export class AttributeComponent implements OnInit {
   };
   sAttribute: AttributeDTO = {
     id: "",
-    ai: "",
+    ai: false,
     defaultA: "",
     index: "",
     name: "",
-    nullA: "",
+    nullA: false,
     size: "",
     type: "",
     comment: "",
@@ -66,11 +66,11 @@ export class AttributeComponent implements OnInit {
   };
   nAttribute: AttributeDTO = {
     id: "",
-    ai: "",
+    ai: false,
     defaultA: "",
     index: "",
     name: "",
-    nullA: "",
+    nullA: false,
     size: "",
     type: "",
     comment: "",
@@ -141,4 +141,9 @@ export class AttributeComponent implements OnInit {
         error => { this.toastr.error(this.message.getter()); });
   }
 
+  new() {
+    
+    this.router.navigate([(`/tables/${this.id}/newAttribute`)]);
+
+}
 }

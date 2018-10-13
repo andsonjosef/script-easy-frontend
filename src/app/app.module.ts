@@ -30,7 +30,8 @@ import { AttributeService } from './service/domain/attribute-service';
     {path:"bases/page", component:BasesComponent},
     {path:"bases/:id/schemas/page", component:SchemaComponent},
     {path:"schemas/:id/tables/page", component:TableComponent},
-    {path:"tables/:id/attributes/page", component:AttributeComponent}
+    {path:"tables/:id/attributes/page", component:AttributeComponent},
+    {path:"tables/:id/newAttribute", component:NewAttributeComponent}
   ];
 @NgModule({
   declarations: [
