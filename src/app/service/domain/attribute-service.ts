@@ -9,6 +9,7 @@ import { AttributeDTO } from "src/app/models/attributes.dto";
 @Injectable()
 export class AttributeService{
     private attribute: AttributeDTO;
+   
     constructor(public http: HttpClient){
     }
 
@@ -25,8 +26,16 @@ export class AttributeService{
         return this.attribute;
     }
 
+    hasPk(table_id : number): Observable<boolean>{
+        return this.http.get<boolean>(`${API_CONFIG.baseUrl}/tables/${table_id}/attributes/pk`);
+    }
+
     findPage(table: TableDTO, page : number, linesPerPage : number, orderBy: string, direction: string ){
         return this.http.get(`${API_CONFIG.baseUrl}/tables/${table.id}/attributes/page?page=${page}&linesPerPage=${linesPerPage}&orderBy=${orderBy}&direction=${direction}`);
+    }
+
+    findReferences(schema_id: number ): Observable<TableDTO[]>{
+        return this.http.get<TableDTO[]>(`${API_CONFIG.baseUrl}/attributes/ref/${schema_id}`);
     }
 
     insert(obj : AttributeDTO) {

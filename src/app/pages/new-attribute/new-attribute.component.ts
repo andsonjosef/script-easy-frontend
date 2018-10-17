@@ -5,6 +5,7 @@ import { TableService } from 'src/app/service/domain/table-service';
 import { AttributeService } from 'src/app/service/domain/attribute-service';
 import { ToastsManager } from 'ng6-toastr';
 import { MessageService } from 'src/app/service/domain/message.service';
+import { TableDTO } from 'src/app/models/tables.dto';
 
 @Component({
   selector: 'app-new-attribute',
@@ -16,10 +17,10 @@ export class NewAttributeComponent implements OnInit {
     id: "",
     ai: false,
     defaultA: "",
-    index: "",
+    indexA: "",
     name: "",
     nullA: false,
-    size: "",
+    size: 0, 
     type: "",
     comment: "",
     referencesTable: "",
@@ -36,7 +37,12 @@ export class NewAttributeComponent implements OnInit {
       }
     }
   };
-  
+
+  schemaId: number;
+  hasPk;
+  selectPk;
+  table: TableDTO;
+  tables: TableDTO[] = [];
   lindexs = ["", "PRIMARY", "FOREIGN", "UNIQUE"];
   dtypes = ["INT", "VARCHAR", "BOOLEAN", "DATE", "TEXT"];
   ntypes = ["TINYINT", "SMALLINT", "MEDIUMINT", "INT", "BIGINT", "DECIMAL", "FLOAT", "DOUBLE", "REAL", "BIT", "BOOLEAN", "SERIAL", "NUMERIC", "RAW"];
@@ -47,7 +53,7 @@ export class NewAttributeComponent implements OnInit {
   defaultAs: string[] = [];
   indexs: string[] = [];
   nullAs: boolean[] = [];
-  sizes: string[] = [];
+  sizes: number[] = [];
   types: string[] = [];
   comments: string[] = [];
   referencesTables: string[] = [];
@@ -69,6 +75,31 @@ export class NewAttributeComponent implements OnInit {
 
   ngOnInit() {
     this.rows = [false, false, false, false];
+    this.id = parseInt(this.router.url.substring(this.router.url.indexOf("/tables/") + 8, this.router.url.indexOf("/newAttribute")));
+    this.attributeService.hasPk(this.id)
+      .subscribe(response => {
+        this.hasPk = response;
+
+      },
+        error => { this.toastr.error(this.message.getter()); });
+
+      this.tableService.find(this.id)
+      .subscribe(response => {
+        this.table = response;
+        console.log("sera " + this.table.schema)
+        this.attributeService.findReferences(parseInt(this.table.schema.id))
+        .subscribe(response => {
+          this.tables = response;
+
+          console.log("aasss" + this.tables)
+  
+        },
+          error => { this.toastr.error(this.message.getter()); });
+      },
+        error => { this.toastr.error(this.message.getter()); });
+
+      
+
   }
 
   addRow(add: number) {
@@ -86,9 +117,7 @@ export class NewAttributeComponent implements OnInit {
   removeRow() {
 
     let i = 0;
-    console.log("lenght" + this.srows.length);
     while (i < this.srows.length) {
-      console.log("ture? " + this.srows[i] + " i " + i);
       if (this.srows[i] == true) {
         this.names.splice(i, 1);
         this.ais.splice(i, 1);
@@ -101,43 +130,34 @@ export class NewAttributeComponent implements OnInit {
         this.referencesTables.splice(i, 1);
         this.srows.splice(i, 1);
         this.rows.splice(i, 1);
-        console.log("lenght after" + this.srows.length);
       }
 
       i++;
     }
   }
 
-  test(){
+
+  change() {
     let i = 0;
-    while(i < this.attributes.length){
-      this.attribute = this.attributes[i];
-      this.id = parseInt(this.router.url.substring(this.router.url.indexOf("/tables/") + 8, this.router.url.indexOf("/newAttribute")));
-      this.tableService.find(this.id)
-        .subscribe(response => {
-          this.attribute.table = response;
-
-        },
-          error => { this.toastr.error(this.message.getter()); });
-
-
-      this.attributeService.insert(this.attribute)
-        .subscribe(response => {
-
-          this.toastr.success('Attribute created!', 'Success!');
-        },
-          error => { this.toastr.error(this.message.getter()); });
-
-      console.log(this.attribute);
+   let count = 0;
+    while (i < this.rows.length) {
+      if (this.indexs[i] == "PRIMARY") {
+       count ++;
+      }
+      if (count == 0) {
+        this.selectPk = false;
+      }else{
+        this.selectPk = true
+      }
       i++;
     }
+    console.log("select pk " +this.selectPk)
   }
-
   new() {
-    let i;
-    i = 0;
+    let i = 0;
 
     while (i < this.rows.length) {
+      console.log("sizes " + this.sizes + " i " + i );
       if (this.ais[i] != true) {
         this.ais[i] = false;
       }
@@ -145,7 +165,7 @@ export class NewAttributeComponent implements OnInit {
         this.nullAs[i] = false;
       }
 
-      if(this.names[i] == null || this.names[i] == ""){
+      if (this.names[i] == null || this.names[i] == "") {
         this.names.splice(i, 1);
         this.ais.splice(i, 1);
         this.defaultAs.splice(i, 1);
@@ -163,7 +183,7 @@ export class NewAttributeComponent implements OnInit {
 
       this.attribute.ai = this.ais[i];
       this.attribute.defaultA = this.defaultAs[i];
-      this.attribute.index = this.indexs[i];
+      this.attribute.indexA = this.indexs[i];
       this.attribute.size = this.sizes[i];
       this.attribute.type = this.types[i];
       this.attribute.referencesTable = this.referencesTables[i];

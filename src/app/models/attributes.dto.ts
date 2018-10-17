@@ -4,10 +4,10 @@ export interface AttributeDTO{
     id: string
    	ai : boolean
 	defaultA : string
-	index: string
+	indexA: string
 	name : string
 	nullA : boolean
-	size: string
+	size: number
 	type : string
 	comment: string
 	referencesTable : string

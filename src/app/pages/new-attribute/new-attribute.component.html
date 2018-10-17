@@ -211,7 +211,7 @@
                             <option disabled>Segment</option>
                             <option [value]="stype" *ngFor="let stype of stypes" selected>{{stype}}</option>
                             <option disabled></option>
-                            <option disabled>Date and Time</option>
+                            <option disabled>Date and Time {{hasPk}}</option>
                             <option [value]="ttype" *ngFor="let ttype of ttypes" selected>{{ttype}}</option>
                           </select></td>
                         <td class="sorting_1"> <input [(ngModel)]="sizes[i]" class="form-control" placeholder="size"
@@ -221,14 +221,18 @@
                         <td class="sorting_1"> <input [(ngModel)]="defaultAs[i]" class="form-control" placeholder="default"
                             name="defaultAs-{{i}}" type="text" autofocus=""></td>
                         <td class="sorting_1">
-                          <select [(ngModel)]="indexs[i]" class="custom-select mr-sm-2" id="inlineFormCustomSelect2">
-                             <option [value]="lindex" *ngFor="let lindex of lindexs" selected>{{lindex}}</option>
+                          <select (change)="change() " [(ngModel)]="indexs[i]" class="custom-select mr-sm-2" id="inlineFormCustomSelect2">
+                             <option [value]="lindex" [disabled]="lindex == 'PRIMARY' && hasPk == true  || selectPk == true && lindex == 'PRIMARY'" *ngFor="let lindex of lindexs" selected>{{lindex}}</option>
                           </select></td>
                         <td class="sorting_1"> <input [(ngModel)]="ais[i]" class="form-control" placeholder="ai" name="ais-{{i}}"
                             type="checkbox" autofocus=""></td>
 
-                        <td class="sorting_1"> <input [(ngModel)]="referencesTables[i]" class="form-control"
-                            placeholder="references" name="referencesTables-{{i}}" type="text" autofocus=""></td>
+                        <td class="sorting_1"> 
+                          <select (change)="change() " [(ngModel)]="referencesTables[i]" class="custom-select mr-sm-2" id="inlineFormCustomSelect2">
+                            <option  selected></option>
+                            <option [value]="tab" [disabled]="tab.id == id" *ngFor="let tab of tables" selected>{{tab.name}}</option>
+                         </select>
+                        </td>
 
                       </tr>
                     </tbody>
