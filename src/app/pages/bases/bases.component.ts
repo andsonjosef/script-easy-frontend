@@ -64,7 +64,6 @@ export class BasesComponent implements OnInit {
 
     select(base: BaseDTO) {
         this.sBase = base;
-        console.log("selected " + this.sBase);
     }
 
     showBases(page: number, linesPerPage: number, orderBy: string, direction: string) {
@@ -77,7 +76,6 @@ export class BasesComponent implements OnInit {
 
                 for (var i = 0; i < this.numberOfPages; i++) {
                     this.pages.push(i);
-                    console.log(this.pages)
                 }
 
             },
@@ -107,7 +105,6 @@ export class BasesComponent implements OnInit {
 
     insert() {
         
-        console.log(this.nBase.name);
         this.baseService.insert(this.nBase)
             .subscribe(response => {
                 this.bases = [];

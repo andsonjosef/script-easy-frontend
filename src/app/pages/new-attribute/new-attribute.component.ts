@@ -86,12 +86,10 @@ export class NewAttributeComponent implements OnInit {
       this.tableService.find(this.id)
       .subscribe(response => {
         this.table = response;
-        console.log("sera " + this.table.schema)
         this.attributeService.findReferences(parseInt(this.table.schema.id))
         .subscribe(response => {
           this.tables = response;
 
-          console.log("aasss" + this.tables)
   
         },
           error => { this.toastr.error(this.message.getter()); });
@@ -151,13 +149,11 @@ export class NewAttributeComponent implements OnInit {
       }
       i++;
     }
-    console.log("select pk " +this.selectPk)
   }
   new() {
     let i = 0;
 
     while (i < this.rows.length) {
-      console.log("sizes " + this.sizes + " i " + i );
       if (this.ais[i] != true) {
         this.ais[i] = false;
       }
@@ -206,7 +202,6 @@ export class NewAttributeComponent implements OnInit {
         },
           error => { this.toastr.error(this.message.getter()); });
 
-      console.log(this.attribute);
       i++;
     }
   }
