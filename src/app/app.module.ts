@@ -24,6 +24,7 @@ import { TableService } from './service/domain/table-service';
 import { NewAttributeComponent } from './pages/new-attribute/new-attribute.component';
 import { AttributeComponent } from './pages/attribute/attribute.component';
 import { AttributeService } from './service/domain/attribute-service';
+import { UpdateAttributeComponent } from './pages/update-attribute/update-attribute.component';
 
  const appRoutes: Routes = [
     {path:'', component:HomeComponent},
@@ -31,7 +32,8 @@ import { AttributeService } from './service/domain/attribute-service';
     {path:"bases/:id/schemas/page", component:SchemaComponent},
     {path:"schemas/:id/tables/page", component:TableComponent},
     {path:"tables/:id/attributes/page", component:AttributeComponent},
-    {path:"tables/:id/newAttribute", component:NewAttributeComponent}
+    {path:"tables/:id/newAttribute", component:NewAttributeComponent},
+    {path:"tables/:id/updateAttribute/:ids", component:UpdateAttributeComponent}
   ];
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { AttributeService } from './service/domain/attribute-service';
     SchemaComponent,
     TableComponent,
     NewAttributeComponent,
-    AttributeComponent
+    AttributeComponent,
+    UpdateAttributeComponent
   ],
   imports: [
     HttpClientModule,

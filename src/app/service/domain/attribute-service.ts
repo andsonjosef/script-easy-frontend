@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { API_CONFIG } from "../../config/api.config";
 import { Observable } from "rxjs";
@@ -9,7 +9,9 @@ import { AttributeDTO } from "src/app/models/attributes.dto";
 @Injectable()
 export class AttributeService{
     private attribute: AttributeDTO;
-   
+    private attributes: AttributeDTO[];
+    
+    emmiter = new EventEmitter<AttributeDTO[]>();
     constructor(public http: HttpClient){
     }
 
@@ -26,6 +28,13 @@ export class AttributeService{
         return this.attribute;
     }
 
+    setterList(attributes:AttributeDTO[]){
+        this.attributes = attributes;
+    }
+
+    getterList(){
+        return this.attributes;
+    }
     hasPk(table_id : number): Observable<boolean>{
         return this.http.get<boolean>(`${API_CONFIG.baseUrl}/tables/${table_id}/attributes/pk`);
     }
@@ -68,4 +77,15 @@ export class AttributeService{
             }
         ); 
     }
+
+    updateList(obj: AttributeDTO[]){
+        this.emmiter.emit(obj);
+    }
+
+    find(id: number){
+        return this.http.get<AttributeDTO>(`${API_CONFIG.baseUrl}/attributes/${id}`);
+
+    }
+
+    
 }

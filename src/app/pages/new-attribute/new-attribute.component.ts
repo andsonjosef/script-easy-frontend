@@ -20,7 +20,7 @@ export class NewAttributeComponent implements OnInit {
     indexA: "",
     name: "",
     nullA: false,
-    size: 0, 
+    size: 0,
     type: "",
     comment: "",
     referencesTable: "",
@@ -42,7 +42,7 @@ export class NewAttributeComponent implements OnInit {
   hasPk;
   selectPk;
   table: TableDTO;
-  tables: TableDTO[] = [];
+  tablesRef: TableDTO[] = [];
   lindexs = ["", "PRIMARY", "FOREIGN", "UNIQUE"];
   dtypes = ["INT", "VARCHAR", "BOOLEAN", "DATE", "TEXT"];
   ntypes = ["TINYINT", "SMALLINT", "MEDIUMINT", "INT", "BIGINT", "DECIMAL", "FLOAT", "DOUBLE", "REAL", "BIT", "BOOLEAN", "SERIAL", "NUMERIC", "RAW"];
@@ -83,20 +83,20 @@ export class NewAttributeComponent implements OnInit {
       },
         error => { this.toastr.error(this.message.getter()); });
 
-      this.tableService.find(this.id)
+    this.tableService.find(this.id)
       .subscribe(response => {
         this.table = response;
         this.attributeService.findReferences(parseInt(this.table.schema.id))
-        .subscribe(response => {
-          this.tables = response;
+          .subscribe(response => {
+            this.tablesRef = response;
 
-  
-        },
-          error => { this.toastr.error(this.message.getter()); });
+
+          },
+            error => { this.toastr.error(this.message.getter()); });
       },
         error => { this.toastr.error(this.message.getter()); });
 
-      
+
 
   }
 
@@ -115,8 +115,14 @@ export class NewAttributeComponent implements OnInit {
   removeRow() {
 
     let i = 0;
+
     while (i < this.srows.length) {
+      console.log('çemgth ' + this.srows.length);
+      console.log('bt w and if ' + i + ' ' + this.srows[i]);
       if (this.srows[i] == true) {
+        console.log('if ' + i + ' ' + this.srows[i]);
+
+
         this.names.splice(i, 1);
         this.ais.splice(i, 1);
         this.defaultAs.splice(i, 1);
@@ -128,28 +134,34 @@ export class NewAttributeComponent implements OnInit {
         this.referencesTables.splice(i, 1);
         this.srows.splice(i, 1);
         this.rows.splice(i, 1);
+        i--;
       }
+      console.log('b4 ++ ' + i);
 
       i++;
+      console.log('after ++ ' + i);
+
     }
   }
 
 
   change() {
     let i = 0;
-   let count = 0;
+    let count = 0;
     while (i < this.rows.length) {
       if (this.indexs[i] == "PRIMARY") {
-       count ++;
+        count++;
       }
       if (count == 0) {
         this.selectPk = false;
-      }else{
+      } else {
         this.selectPk = true
       }
       i++;
     }
   }
+
+
   new() {
     let i = 0;
 
@@ -176,7 +188,6 @@ export class NewAttributeComponent implements OnInit {
 
       }
       this.attribute.name = this.names[i];
-
       this.attribute.ai = this.ais[i];
       this.attribute.defaultA = this.defaultAs[i];
       this.attribute.indexA = this.indexs[i];

@@ -228,9 +228,9 @@
                             type="checkbox" autofocus=""></td>
 
                         <td class="sorting_1"> 
-                          <select (change)="change() " [(ngModel)]="referencesTables[i]" class="custom-select mr-sm-2" id="inlineFormCustomSelect2">
+                          <select [(ngModel)]="referencesTables[i]" class="custom-select mr-sm-2" id="inlineFormCustomSelect2">
                             <option  selected></option>
-                            <option [value]="tab" [disabled]="tab.id == id" *ngFor="let tab of tables" selected>{{tab.name}}</option>
+                            <option [value]="tab.name" [disabled]="tab.id == id" *ngFor="let tab of tablesRef" selected>{{tab.name}}</option>
                          </select>
                         </td>
 
